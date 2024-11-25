@@ -1,3 +1,4 @@
+// app/wiki/page.tsx
 'use client';
 
 import { useSearchParams } from 'next/navigation';
@@ -20,6 +21,7 @@ export default function WikiPage({}: WikiPageProps) {
             keyword={keyword}
             gradientFrom={getRandomColor()}
             gradientTo={getRandomColor()}
+            isLoading={true}
           />
         ))}
       </div>
