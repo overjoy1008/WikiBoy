@@ -6,29 +6,38 @@ import { SearchBar } from './components/SearchBar';
 import { KeywordTag } from './components/KeywordTag';
 import { SearchButton } from './components/SearchButton';
 import { ErrorMessage } from './components/ErrorMessage';
+import { KeywordData } from '@/app/components/utils/types';
+import { getRandomColor } from '@/app/components/utils/colors';
 
 export default function Home() {
-  const [keywords, setKeywords] = useState<string[]>([]);
+  const [keywords, setKeywords] = useState<KeywordData[]>([]);
   const [input, setInput] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const trimmedInput = input.trim();
-    if (trimmedInput && keywords.includes(trimmedInput)) {
+    if (trimmedInput && keywords.some(k => k.text === trimmedInput)) {
       setError('This keyword already exists!');
       setTimeout(() => setError(''), 2500);
       return;
     }
     if (trimmedInput) {
-      setKeywords(prev => [...prev, trimmedInput]);
+      setKeywords(prev => [...prev, {
+        text: trimmedInput,
+        colors: {
+          from: getRandomColor(),
+          to: getRandomColor()
+        }
+      }]);
       setInput('');
     }
   };
 
   const handleSearch = () => {
     if (keywords.length > 0) {
-      console.log('Searching with keywords:', keywords);
+      const keywordsData = encodeURIComponent(JSON.stringify(keywords));
+      window.location.href = `/wiki?data=${keywordsData}`;  // Changed from 'keywords' to 'data'
     }
   };
 
@@ -49,7 +58,8 @@ export default function Home() {
           {keywords.map((keyword, index) => (
             <KeywordTag
               key={index}
-              keyword={keyword}
+              keyword={keyword.text}
+              gradientColors={keyword.colors}
               onRemove={() => {
                 setKeywords(prev => prev.filter((_, i) => i !== index));
               }}
@@ -58,11 +68,11 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto mt-6 text-gray-600">
+      <div className="max-w-4xl mx-auto mt-6 text-gray-600 font-bold text-right">
         {keywords.length} filters selected
       </div>
 
-      <SearchButton onClick={handleSearch} keywords={keywords} />
+      <SearchButton onClick={handleSearch} keywords={keywords.map(k => k.text)} />
     </div>
   );
 }

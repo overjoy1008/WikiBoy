@@ -1,16 +1,23 @@
-// components/ResultCard.tsx
-
-import FancyLoader from './FancyLoader';
+// // components/ResultCard.tsx
+import FancyLoader from '@/app/components/FancyLoader';
 
 interface ResultCardProps {
   keyword: string;
   gradientFrom: string;
   gradientTo: string;
-  similarKeywords?: string[];
   isLoading: boolean;
+  content?: string;
+  error?: string | null;
 }
 
-export const ResultCard = ({ keyword, gradientFrom, gradientTo, similarKeywords = [], isLoading }: ResultCardProps) => (
+export const ResultCard = ({ 
+  keyword, 
+  gradientFrom, 
+  gradientTo, 
+  isLoading,
+  content,
+  error
+}: ResultCardProps) => (
   <div className="relative w-full p-6 rounded-xl mb-4 min-h-[200px] bg-white" 
     style={{
       border: '3px solid transparent',
@@ -25,16 +32,15 @@ export const ResultCard = ({ keyword, gradientFrom, gradientTo, similarKeywords 
       <h3 className="text-gray-800 text-lg font-semibold">{keyword}</h3>
     </div>
     <div className="mt-4">
-      {isLoading ? <FancyLoader /> : (
-        <div className="flex flex-wrap gap-2">
-          {similarKeywords.map((similar, index) => (
-            <span key={index} className="px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-700">
-              {similar}
-            </span>
-          ))}
+      {isLoading ? (
+        <FancyLoader />
+      ) : error ? (
+        <div className="text-red-500">{error}</div>
+      ) : (
+        <div className="prose prose-sm max-w-none">
+          {content}
         </div>
       )}
     </div>
   </div>
 );
-

@@ -1,18 +1,14 @@
+// components/KeywordTag.tsx
 import { X } from 'lucide-react';
-import { useMemo } from 'react';
-import { getRandomColor } from './utils/colors';
+import { GradientColors } from '@/app/components/utils/types';
 
 interface KeywordTagProps {
   keyword: string;
+  gradientColors: GradientColors;
   onRemove: () => void;
 }
 
-export const KeywordTag = ({ keyword, onRemove }: KeywordTagProps) => {
-  const gradientColors = useMemo(() => ({
-    from: getRandomColor(),
-    to: getRandomColor()
-  }), []);
-
+export const KeywordTag = ({ keyword, gradientColors, onRemove }: KeywordTagProps) => {
   return (
     <div 
       className="flex items-center gap-2 px-3 py-1.5 rounded-full text-white transition-transform hover:scale-105"
@@ -28,5 +24,3 @@ export const KeywordTag = ({ keyword, onRemove }: KeywordTagProps) => {
     </div>
   );
 };
-
-export default KeywordTag;
