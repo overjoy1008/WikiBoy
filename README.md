@@ -19,4 +19,6 @@
 
 ## How to activate project:
 - `cd wiki_boy`
+- `npm install -g pnpm`
+- `pnpm install`
 - `pnpm run dev`
