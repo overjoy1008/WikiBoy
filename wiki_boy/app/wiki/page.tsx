@@ -1,17 +1,46 @@
 // app/wiki/page.tsx
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { ResultCard } from '../components/ResultCard';
 import { KeywordData } from '@/app/components/utils/types';
+import { loadFromStorage, STORAGE_KEYS } from '../components/utils/localStorage';
 
 export default function WikiPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const dataParam = searchParams.get('data');
-  const keywords: KeywordData[] = dataParam ? JSON.parse(decodeURIComponent(dataParam)) : [];
+  const tocMode = searchParams.get('tocMode') === 'true';
+  
+  const [keywords, setKeywords] = useState<KeywordData[]>(() => {
+    if (dataParam) {
+      try {
+        return JSON.parse(decodeURIComponent(dataParam));
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  });
+
   const [results, setResults] = useState<{[key: string]: {content: string, error: string | null}}>({});
   const [processedKeywords] = useState(new Set());
+
+  useEffect(() => {
+    // URL 파라미터가 없는 경우 localStorage에서 데이터를 불러옵니다
+    if (!dataParam) {
+      const storedKeywords = loadFromStorage<KeywordData[]>(STORAGE_KEYS.KEYWORDS, []);
+      const storedTocMode = loadFromStorage<boolean>(STORAGE_KEYS.TOC_MODE, false);
+      
+      if (storedKeywords.length > 0) {
+        const keywordsData = encodeURIComponent(JSON.stringify(storedKeywords));
+        router.replace(`/wiki?data=${keywordsData}&tocMode=${storedTocMode}`);
+      } else {
+        router.replace('/');
+      }
+    }
+  }, [dataParam, router]);
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -24,7 +53,7 @@ export default function WikiPage() {
           const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ keyword })
+            body: JSON.stringify({ keyword, tocMode })
           });
 
           if (!response.ok) throw new Error('Network response was not ok');
@@ -66,7 +95,7 @@ export default function WikiPage() {
     };
 
     fetchResults();
-  }, [keywords]);
+  }, [keywords, tocMode, processedKeywords]);
 
   return (
     <div className="min-h-screen bg-[#f8f9fa] p-8">

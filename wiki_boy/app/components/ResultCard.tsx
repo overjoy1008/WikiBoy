@@ -77,7 +77,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({
   content,
   error
 }) => (
-  <div className="relative w-full p-6 rounded-xl mb-4 min-h-[200px] bg-white" 
+  <div className="relative w-full p-6 rounded-xl mb-4 min-h-[180px] bg-white" 
     style={{
       border: '3px solid transparent',
       backgroundImage: `linear-gradient(white, white), linear-gradient(135deg, ${gradientFrom}, ${gradientTo})`,
@@ -90,7 +90,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({
       }}>
       <h3 className="text-gray-800 text-lg font-semibold">{keyword}</h3>
     </div>
-    <div className="mt-4">
+    <div className="mt-3">
       {isLoading ? (
         <FancyLoader />
       ) : error ? (
