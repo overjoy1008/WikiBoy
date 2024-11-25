@@ -19,7 +19,7 @@ export const SearchButton = ({ onClick, keywords }: SearchButtonProps) => {
   return (
     <button
       onClick={handleClick}
-      className="fixed bottom-8 left-1/2 -translate-x-1/2 px-8 py-3 rounded-lg shadow-lg transition-transform hover:scale-105"
+      className="fixed bottom-8 left-1/2 -translate-x-1/2 px-12 py-3 rounded-xl shadow-lg transition-transform hover:scale-105"
       style={{
         background: 'linear-gradient(135deg, #60A5FA, #3B82F6, #2563EB)',
         color: 'white'
