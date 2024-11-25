@@ -3,10 +3,8 @@
 - Next.JS Web App
 
 ## Preview screenshot:
-<img width="771" alt="스크린샷 2024-11-26 오전 2 19 30" src="https://github.com/user-attachments/assets/76c5dd0c-eb19-49ad-a910-d922d311d583">
-<img width="940" alt="스크린샷 2024-11-26 오전 4 11 20" src="https://github.com/user-attachments/assets/335d3f4b-ad92-4c93-b939-d5733eaf2a68">
-
-
+<img width="754" alt="스크린샷 2024-11-26 오전 5 57 31" src="https://github.com/user-attachments/assets/fedd795a-f30c-4c6b-90ee-afae0dda2c97">
+<img width="761" alt="스크린샷 2024-11-26 오전 5 57 48" src="https://github.com/user-attachments/assets/de16edfa-8467-4f66-bd31-47719dd649dd">
 
 ## Planned features:
 - Claude Sonnet to find relevant keywords
